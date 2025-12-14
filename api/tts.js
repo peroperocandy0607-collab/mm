@@ -1,5 +1,4 @@
-module.exports = async function handler(req, res) {
-  
+module.exports = async function handler(req, res) { 
   if (req.method !== "POST") {
     return res.status(405).json({ error: "POST only" });
   }
@@ -34,7 +33,7 @@ module.exports = async function handler(req, res) {
     res.setHeader("Content-Type", "audio/wav");
     res.send(buffer);
 
-  } catch (e: any) {
+  } catch (e) {
     console.error("TTS crash:", e);
     res.status(500).json({ error: e.message });
   }
