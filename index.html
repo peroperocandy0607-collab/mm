@@ -58,7 +58,8 @@
 
 <script>
 async function generateVoice() {
-  alert("ボタン反応OK");
+  alert("音声生成スタート"); // ← 反応確認
+
   const text = document.getElementById("text").value;
 
   const res = await fetch("https://mm-one.vercel.app/api/tts", {
@@ -67,16 +68,25 @@ async function generateVoice() {
     body: JSON.stringify({ text }),
   });
 
+  alert("APIから返事が来ました");
+
   if (!res.ok) {
-    alert("音声生成に失敗しました");
+    alert("APIエラー：" + res.status);
     return;
   }
 
   const blob = await res.blob();
   const url = URL.createObjectURL(blob);
 
-  const audio = new Audio(url);
-  audio.play();
+  // ★ 確実に音を出す方法
+  const audio = document.createElement("audio");
+  audio.src = url;
+  audio.controls = true;   // ← 再生ボタンを出す
+  audio.autoplay = true;
+
+  document.body.appendChild(audio);
+
+  alert("再生バーを表示しました");
 }
 </script>
   </body>
